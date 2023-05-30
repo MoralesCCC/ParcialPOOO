@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import proyectomundial.DAO.LoginDAO;
 import proyectomundial.DAO.SeleccionDAO;
 import proyectomundial.model.Seleccion;
 
@@ -502,34 +503,18 @@ public class GUIManual extends JFrame {
         jLabelTop.setText("registro");
         
         
-        // Si no hay selecciones cargadas, muestra el botón de carga de selecciones
-        if (selecciones == null) {
-            jPanelMain.removeAll();
-            JPanel LoginPanel = new JPanel();
-
-            JLabel notLogin = new JLabel();
-            notLogin.setText("No hay selecciones cargadas, por favor cargue selecciones \n\n");
-            LoginPanel.add(notLogin);
-
-            JButton cargarFile = new JButton();
-            cargarFile.setText("Seleccione el archivo");
-            LoginPanel.add(cargarFile);
-            cargarFile.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    cargarFileSelecciones();
-                }
-            });
-
-            jPanelMain.add(LoginPanel);
-            jPanelMain.repaint();
-            jPanelMain.revalidate();
+        String usuario1=JOptionPane.showInputDialog("usuario");
+        String contraseña1=JOptionPane.showInputDialog("contraseña");
+        
+        if ("pepito".equals(usuario1)) {
+            if ("buenaSuerte".equals(contraseña1)) {
+                this.haySesion = true;
+            }
         }
+        
         // Si hay selecciones cargadas, llama el método que permite pintar la tabla de selecciones
-        else {
-            pintarTablaSelecciones();
-        }        
+        
     }
-    
     /**
      * Función que permite darle estilos y agregar los componentes gráficos del contendor de la parte 
      * izquierda de la interfaz, dónde se visulaiza el menú de navegaación
@@ -598,6 +583,16 @@ public class GUIManual extends JFrame {
             if (entrada != null) {
                 entrada.close();
             }
+        }
+    }
+    public void cargarFileLogin() {
+    LoginDAO login = new LoginDAO();
+        boolean autenticado = login.autenticarUsuario("usuario1", "contraseña1");
+
+        if (autenticado) {
+            System.out.println("Inicio de sesión exitoso");
+        } else {
+            System.out.println("Nombre de usuario o contraseña incorrectos");
         }
     }
     
