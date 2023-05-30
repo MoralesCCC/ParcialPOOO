@@ -4,10 +4,11 @@
  */
 package proyectomundial.DAO;
 
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import proyectomundial.model.Seleccion;
+import proyectomundial.model.Registro;
 import proyectomundial.util.BasedeDatos;
 import static proyectomundial.util.BasedeDatos.ejecutarSQL;
 
@@ -15,30 +16,27 @@ import static proyectomundial.util.BasedeDatos.ejecutarSQL;
  *
  * @author miguelropero
  */
-public class registroDAO {
+public class RegistroDAO {
 
-    public registroDAO() {
+    public RegistroDAO() {
         BasedeDatos.conectar();
     }
     
-    public boolean registrarSeleccion(Seleccion seleccion) {
+    public boolean RegistrarLogin(Registro registrar) {
         
-        String sql = "INSERT INTO poo.seleccion (nombre, continente, dt, nacionalidad) values("
-                + "'" + seleccion.getNombre() + "', " 
-                + "'" + seleccion.getContinente() + "', " 
-                + "'" + seleccion.getDt() + "', " 
-                + "'" + seleccion.getNacionalidad() + "')";
+        String sql = "INSERT INTO poo.users values(usuario, contraseña,) "
+                + "'" + registrar.getUsuario() + "', " 
+                + "'" + registrar.getContraseña() + "')";
         
         //BasedeDatos.conectar();
         boolean registro = BasedeDatos.ejecutarActualizacionSQL(sql);
         //BasedeDatos.desconectar();
         return registro;
     }
-    
-    public List<Seleccion> getSelecciones() {
+    public List<Registro> getRegistro() {
         
-        String sql = "SELECT nombre, continente, dt, nacionalidad FROM poo.seleccion";
-        List<Seleccion> selecciones = new ArrayList<Seleccion>();
+        String sql = "SELECT usuario, contraseña FROM poo.users";
+        List<Registro> registro = new ArrayList<Registro>();
         
         try {
             ResultSet result = BasedeDatos.ejecutarSQL(sql);
@@ -46,8 +44,8 @@ public class registroDAO {
             if(result != null) {
             
                 while (result.next()) { 
-                    Seleccion seleccion = new Seleccion(result.getString("nombre"), result.getString("continente"), result.getString("dt"), result.getString("nacionalidad"));
-                    selecciones.add(seleccion);
+                    Registro registro = new Registro(result.getString("usuario"),result.getString("contraseña"));
+                    registro.add(registro);
                 }
             }
         } catch (Exception e) {
@@ -55,32 +53,7 @@ public class registroDAO {
             System.out.println("Error consultando selecciones");
         }
         
-        return selecciones;
+        return registro;
     }
     
-    
-    public String[][] getSeleccionesMatriz() {
-        
-        String[][] matrizSelecciones = null;
-        List<Seleccion> selecciones = getSelecciones();
-        
-        
-        if(selecciones != null && selecciones.size() > 0) {
-            
-        
-            matrizSelecciones = new String[selecciones.size()][4];
-
-            int x = 0;
-            for (Seleccion seleccion : selecciones) {
-
-                matrizSelecciones[x][0] = seleccion.getNombre();
-                matrizSelecciones[x][1] = seleccion.getContinente();
-                matrizSelecciones[x][2] = seleccion.getDt();
-                matrizSelecciones[x][3] = seleccion.getNacionalidad();
-                x++;
-            }
-        }
-        
-        return matrizSelecciones;
-    }
 }

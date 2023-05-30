@@ -59,6 +59,9 @@ public class GUIManual extends JFrame {
     
     private JPanel jPanelMenuDashboardRes;
     private JLabel btnDashboardRes;
+    
+    private JPanel jPanelMenuLogin;
+    private JLabel btnLogin;
         
     // Elementos de panel de contenido
     private JPanel jPanelRight;
@@ -112,6 +115,9 @@ public class GUIManual extends JFrame {
         jPanelMenuDashboardRes = new JPanel();
         btnDashboardRes = new JLabel();
         
+        jPanelMenuLogin = new JPanel();
+        btnLogin = new JLabel();
+        
         // Pinta el logo de la aplicación
         pintarLogo();
         
@@ -129,6 +135,8 @@ public class GUIManual extends JFrame {
         
         // Pinta la opción de Menú del dahboard de resultados
         pintarMenuDashboardRes();
+        
+        pintarMenuLogin();
         
         // Pinta y ajuste diseño del contenedor del panel izquierdo
         pintarPanelIzquierdo();
@@ -438,7 +446,26 @@ public class GUIManual extends JFrame {
         });
     }
     
-    
+    private void pintarMenuLogin() {
+        btnLogin.setIcon(new ImageIcon(getClass().getResource("/resources/icons/dashboard_resultados.png")));
+        btnLogin.setText("login");
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        
+        JLabel vacioDashboardResultados = new JLabel();
+        jPanelMenuLogin.setBackground(new java.awt.Color(17, 41, 63));
+        jPanelMenuLogin.setPreferredSize((new java.awt.Dimension(220, 35)));
+        jPanelMenuLogin.setLayout(new BorderLayout(15, 0));
+        jPanelMenuLogin.add(vacioDashboardResultados, BorderLayout.WEST);
+        jPanelMenuLogin.add(btnLogin, BorderLayout.CENTER);
+        jPanelMenu.add(jPanelMenuLogin);
+        
+        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                System.out.println("Login");
+                accionLogin();
+            }
+        });
+    }
     /**
      * TRABAJO DEL ESTUDIANTE
      * Se debe módificar este método para poder calcular y pintar las diferentes informaciones que son solicitadas
@@ -469,6 +496,38 @@ public class GUIManual extends JFrame {
         
         jPanelMain.repaint();
         jPanelMain.revalidate();        
+    }
+    
+    private void accionLogin() {
+        jLabelTop.setText("registro");
+        
+        
+        // Si no hay selecciones cargadas, muestra el botón de carga de selecciones
+        if (selecciones == null) {
+            jPanelMain.removeAll();
+            JPanel LoginPanel = new JPanel();
+
+            JLabel notLogin = new JLabel();
+            notLogin.setText("No hay selecciones cargadas, por favor cargue selecciones \n\n");
+            LoginPanel.add(notLogin);
+
+            JButton cargarFile = new JButton();
+            cargarFile.setText("Seleccione el archivo");
+            LoginPanel.add(cargarFile);
+            cargarFile.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    cargarFileSelecciones();
+                }
+            });
+
+            jPanelMain.add(LoginPanel);
+            jPanelMain.repaint();
+            jPanelMain.revalidate();
+        }
+        // Si hay selecciones cargadas, llama el método que permite pintar la tabla de selecciones
+        else {
+            pintarTablaSelecciones();
+        }        
     }
     
     /**
