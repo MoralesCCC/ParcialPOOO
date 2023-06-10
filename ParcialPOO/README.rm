@@ -1,3 +1,8 @@
 
 Nombre Estudiante:Andres Morales
 Correo Electrónico del estudiante:a_moraleas@unisimon.edu.co 
+
+Observaciones
+No logra desarrollar la solución adecuadamente. No era necesario recrear la conexión a la BD. Se debía utilizar la conexión ya existente. 
+En el DAO solo era necesario crear el select sobre la tabla user y pasar los paémtros de usaurio y contraseña dados por el usuario. 
+Se capturan adecuadamente los parámetros en la GUI pero nunca son enviados al DAO
